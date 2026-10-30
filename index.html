@@ -1107,15 +1107,28 @@ img{max-width:100%}
   </section>
 
   <!-- FINAL CTA -->
-  <section id="register" style="background: #344596; color: #FFFFFF">
+  <section id="join" style="background: #344596; color: #FFFFFF">
     <div style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 8vw, 104px) clamp(20px, 5vw, 64px); display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: space-between">
       <div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
         <h2 style="margin: 0; font-family: Poppins, sans-serif; font-weight: 800; font-size: clamp(34px, 4.6vw, 56px); line-height: 1.05; letter-spacing: -0.02em">Only 30 seats per session.</h2>
         <p style="margin: 0; font-size: 18px; line-height: 1.6; color: #D6DBF0">Save your child’s place this December, and get the early-bird price while it lasts.</p>
       </div>
-      <a class="kd-btn" href="[REGISTRATION LINK]" style="background: #FFD23F; color: #121633; text-decoration: none; font-family: Poppins, sans-serif; font-weight: 700; font-size: 18px; padding: 18px 34px; border-radius: 999px; min-height: 56px; box-sizing: border-box; display: inline-flex; align-items: center; gap: 10px">Grab this opportunity
+      <a class="kd-btn" href="#register" style="background: #FFD23F; color: #121633; text-decoration: none; font-family: Poppins, sans-serif; font-weight: 700; font-size: 18px; padding: 18px 34px; border-radius: 999px; min-height: 56px; box-sizing: border-box; display: inline-flex; align-items: center; gap: 10px">Grab this opportunity
         <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
       </a>
+    </div>
+  </section>
+
+  <!-- REGISTER & PAY (the Stripe pricing table replaces the placeholder on the live website) -->
+  <section id="register" style="background: #F5F6FB; border-bottom: 1px solid #E3E6F2">
+    <div style="max-width: 1200px; margin: 0 auto; padding: clamp(64px, 8vw, 104px) clamp(20px, 5vw, 64px); display: flex; flex-direction: column; gap: 32px">
+      <div style="display: flex; flex-direction: column; gap: 14px; max-width: 720px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: #344596">Register and pay</span>
+        <h2 style="margin: 0; font-family: Poppins, sans-serif; font-weight: 700; font-size: clamp(32px, 4vw, 48px); line-height: 1.1; letter-spacing: -0.02em">Choose your session and pay securely.</h2>
+        <p style="margin: 0; font-size: 17px; line-height: 1.65; color: #3A3F5C">Pick a session below to book your child’s seat. Payment is handled securely by Stripe.</p>
+      </div>
+      <div class="kd-stripe" style="border-radius: 20px; background: #FFFFFF; padding: clamp(8px, 2vw, 24px)"><script async src="https://js.stripe.com/v3/pricing-table.js"></script><stripe-pricing-table pricing-table-id="prctbl_1UVuKKPwAVpYLYZakzp7rGNS" publishable-key="pk_live_51UVkacPwAVpYLYZa4HWnOyZseXLApwT7yGTsVIyuMVqDLfXrJ10x12S7rUCvAVsdlgUqeL5PampTEt8mc9jnOd8C00AfVamsSs"></stripe-pricing-table></div>
+      <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #5A6080">Registering a school group? See the <a href="international-school-package.html">International School Package</a>. Questions before you pay? Email <a href="mailto:kualalumpurdebate@gmail.com">kualalumpurdebate@gmail.com</a>.</p>
     </div>
   </section>
 

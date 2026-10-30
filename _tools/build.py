@@ -154,6 +154,16 @@ def tag_list(m):
     r = m.group(0).replace('class="kd-day-list"', f'class="kd-day-list" data-day-list="{cnt}"'); cnt += 1; return r
 body = re.sub(r'<ol class="kd-day-list"', tag_list, body)
 
+# Stripe pricing table (website only; the canvas shows a placeholder). The publishable key is meant to be public.
+STRIPE_TABLE_ID = "prctbl_1UVuKKPwAVpYLYZakzp7rGNS"
+STRIPE_PK = "pk_live_51UVkacPwAVpYLYZa4HWnOyZseXLApwT7yGTsVIyuMVqDLfXrJ10x12S7rUCvAVsdlgUqeL5PampTEt8mc9jnOd8C00AfVamsSs"
+stripe_html = ('<div class="kd-stripe" style="border-radius: 20px; background: #FFFFFF; padding: clamp(8px, 2vw, 24px)">'
+               '<script async src="https://js.stripe.com/v3/pricing-table.js"></script>'
+               f'<stripe-pricing-table pricing-table-id="{STRIPE_TABLE_ID}" publishable-key="{STRIPE_PK}"></stripe-pricing-table>'
+               '</div>')
+body, n_slots = re.subn(r'<div data-stripe-slot="pricing-table"[^>]*>.*?</div>', stripe_html, body, count=1, flags=re.S)
+assert n_slots == 1, "Stripe placeholder not found on the canvas page"
+
 left = re.findall(r"\{\{[^}]*\}\}|<sc-|onClick=", body)
 assert not left, left[:5]
 
