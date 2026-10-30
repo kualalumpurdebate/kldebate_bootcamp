@@ -201,7 +201,7 @@ main_js = r"""
   });
 })();
 """
-desc = ("KL Debate Bootcamp, December 2026 at TEDOH, Kuala Lumpur: three days of public speaking, "
+desc = ("Kuala Lumpur Debate Orators Camp, December 2026 at TEDOH, Kuala Lumpur: three days of public speaking, "
         "critical thinking and debate for students aged 7 to 18.")
 open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(
     page(title, desc, head, body, "", main_js, blob_names["b7ccdbf2242079eb873744563a7671cf"]))
@@ -211,8 +211,8 @@ title, head, body, script = split_dc(open(os.path.join(SRC, "Schools.dc.html"), 
 body = fix_common(body, {"Main.dc.html": "index.html"})
 left = re.findall(r"\{\{[^}]*\}\}|<sc-|onClick=", body)
 assert not left, left[:5]
-desc = ("The International School Package: USD 350 per student for every 10 students your school enrols "
-        "in the KL Debate Bootcamp, December 2026, Kuala Lumpur.")
+desc = ("The International School Package: USD 250 per student when your school enrols students in groups of 5 "
+        "in the Kuala Lumpur Debate Orators Camp, December 2026.")
 open(os.path.join(OUT, "international-school-package.html"), "w", encoding="utf-8").write(
-    page(title + " | KL Debate Bootcamp", desc, head, body, "", "", blob_names["b7ccdbf2242079eb873744563a7671cf"]))
+    page(title + " | Kuala Lumpur Debate Orators Camp", desc, head, body, "", "", blob_names["b7ccdbf2242079eb873744563a7671cf"]))
 print("built", sorted(os.listdir(OUT)), sorted(os.listdir(os.path.join(OUT, "assets"))))
