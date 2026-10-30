@@ -119,9 +119,10 @@ for e in endorsers:
 ehalf = []
 while len(ehalf) < 10:
     ehalf += endorsers
-body = expand_for(body, "endorsers", endorsers, "e")
-body = expand_for(body, "endorserLoop", ehalf + ehalf, "e")
-body = body.replace("{{endorserDuration}}", f"{max(8, round(len(ehalf) * 200 / SPEED))}s")
+if "{{endorsers}}" in body:  # the strip can be switched off on the canvas
+    body = expand_for(body, "endorsers", endorsers, "e")
+    body = expand_for(body, "endorserLoop", ehalf + ehalf, "e")
+    body = body.replace("{{endorserDuration}}", f"{max(8, round(len(ehalf) * 200 / SPEED))}s")
 
 # Leads slider
 lead_names = re.findall(r"'([^']*)'", re.search(r"const leadNames = \[(.*?)\];", script).group(1))
