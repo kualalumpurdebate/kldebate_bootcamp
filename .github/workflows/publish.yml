@@ -40,8 +40,10 @@ jobs:
       - name: Build the camp pack PDF
         working-directory: _pack
         run: |
-          node render.js
-          python build_pack.py
+          # Errors are also reported as annotations so they show on the run's summary page.
+          node render.js > render.log 2>&1 || { echo "::error title=render.js failed::$(tail -c 700 render.log | tr '\n' ' ')"; exit 1; }
+          python build_pack.py > build.log 2>&1 || { echo "::error title=build_pack.py failed::$(tail -c 700 build.log | tr '\n' ' ')"; exit 1; }
+          cat render.log build.log
 
       - name: Collect the site
         run: |
