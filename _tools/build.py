@@ -202,7 +202,7 @@ main_js = r"""
 })();
 """
 desc = ("Kuala Lumpur Debate Orators Camp, December 2026 at TEDOH, Kuala Lumpur: three days of public speaking, "
-        "critical thinking and debate for students aged 7 to 18.")
+        "critical thinking and debate for students aged 7 to 19.")
 open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(
     page(title, desc, head, body, "", main_js, blob_names["b7ccdbf2242079eb873744563a7671cf"]))
 
