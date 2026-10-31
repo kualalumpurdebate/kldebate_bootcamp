@@ -1,0 +1,64 @@
+name: Publish website and camp pack
+
+# Runs on every change to the repository (and can be started by hand from the Actions tab).
+# It rebuilds the downloadable camp pack PDF from _pack/ and publishes the whole site to GitHub Pages.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tools
+        run: |
+          pip install pymupdf==1.24.10 pypdf==4.3.1
+          cd _pack
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Build the camp pack PDF
+        working-directory: _pack
+        run: |
+          node render.js
+          python build_pack.py
+
+      - name: Collect the site
+        run: |
+          mkdir _site
+          cp index.html international-school-package.html CNAME .nojekyll _site/
+          cp -r assets _site/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

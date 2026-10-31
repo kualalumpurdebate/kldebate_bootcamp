@@ -1,0 +1,11 @@
+{
+  "name": "kldebate-camp-pack",
+  "private": true,
+  "description": "Builds the downloadable camp pack PDF",
+  "dependencies": {
+    "@fontsource/inter": "5.0.18",
+    "@fontsource/jetbrains-mono": "5.0.20",
+    "@fontsource/poppins": "5.0.14",
+    "playwright": "1.47.2"
+  }
+}
