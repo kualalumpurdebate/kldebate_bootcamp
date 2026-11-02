@@ -91,7 +91,7 @@ img{{max-width:100%}}
 
 # ---------------------------------------------------------------- Main page
 title, head, body, script = split_dc(open(os.path.join(SRC, "Main.dc.html"), encoding="utf-8").read())
-body = fix_common(body, {"Schools.dc.html": "international-school-package.html"})
+body = fix_common(body, {"Schools.dc.html": "school-package.html"})
 
 # Partners (data parsed from the canvas script)
 partners = []
@@ -211,8 +211,19 @@ title, head, body, script = split_dc(open(os.path.join(SRC, "Schools.dc.html"), 
 body = fix_common(body, {"Main.dc.html": "index.html"})
 left = re.findall(r"\{\{[^}]*\}\}|<sc-|onClick=", body)
 assert not left, left[:5]
-desc = ("The International School Package: USD 250 per student when your school enrols students in groups of 5 "
+desc = ("The School Package: USD 250 per student when your school enrols students in groups of 5 "
         "in the Kuala Lumpur Debate Orators Camp, December 2026.")
-open(os.path.join(OUT, "international-school-package.html"), "w", encoding="utf-8").write(
+open(os.path.join(OUT, "school-package.html"), "w", encoding="utf-8").write(
     page(title + " | Kuala Lumpur Debate Orators Camp", desc, head, body, "", "", blob_names["b7ccdbf2242079eb873744563a7671cf"]))
+
+# The page used to be called international-school-package.html: keep that address working.
+open(os.path.join(OUT, "international-school-package.html"), "w", encoding="utf-8").write("""<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>School Package | Kuala Lumpur Debate Orators Camp</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="school-package.html">
+<meta http-equiv="refresh" content="0; url=school-package.html">
+<script>location.replace("school-package.html" + location.hash);</script>
+</head><body><p>This page has moved to <a href="school-package.html">the School Package page</a>.</p></body></html>
+""")
 print("built", sorted(os.listdir(OUT)), sorted(os.listdir(os.path.join(OUT, "assets"))))

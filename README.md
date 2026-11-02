@@ -4,7 +4,7 @@ Static website for the Kuala Lumpur Debate Orators Camp (December 2026, TEDOH, K
 published at https://bootcamp.kualalumpurdebate.com with GitHub Pages (deployed from the `main` branch).
 
 - `index.html` – camp landing page
-- `international-school-package.html` – International School Package page
+- `school-package.html` – School Package page (`international-school-package.html` redirects there)
 - `assets/` – photos, logos and the downloadable camp pack PDF
 - `_pack/` – sources for the camp pack PDF (see below)
 
