@@ -103,9 +103,23 @@ for m in re.finditer(r"\{ name: '([^']*)', role: '([^']*)', logo: '([^']*)'(?:, 
 half = []
 while len(half) < 8:
     half += partners
-body = expand_for(body, "partners", partners, "p")
-body = expand_for(body, "marquee", half + half, "p")
-body = body.replace("{{marqueeDuration}}", f"{max(8, round(len(half) * 320 / SPEED))}s")
+while '<sc-for list="{{partners}}"' in body:  # the list can appear more than once
+    body = expand_for(body, "partners", partners, "p")
+if "{{marquee}}" in body:  # older layout: partner cards in a moving strip
+    body = expand_for(body, "marquee", half + half, "p")
+    body = body.replace("{{marqueeDuration}}", f"{max(8, round(len(half) * 320 / SPEED))}s")
+
+# Growing Networks (logos in a moving strip)
+network = []
+for name, logo in re.findall(r"\{ name: '([^']*)', logo: '([^']*)' \}", script):
+    network.append(dict(name=esc(name), logo=re.sub(r"/_blob/([0-9a-f]{32})", lambda x: blob_names[x.group(1)], logo)))
+if '<sc-for list="{{network}}"' in body:
+    nhalf = []
+    while len(nhalf) < 12:
+        nhalf += network
+    body = expand_for(body, "network", network, "n")
+    body = expand_for(body, "networkLoop", nhalf + nhalf, "n")
+    body = body.replace("{{networkDuration}}", f"{max(10, round(len(nhalf) * 256 / SPEED))}s")
 
 # Endorsers
 if "[1, 2, 3, 4, 5, 6].map" in script:
