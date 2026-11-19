@@ -170,7 +170,7 @@ def tag_list(m):
 body = re.sub(r'<ol class="kd-day-list"', tag_list, body)
 
 # Stripe pricing table (website only; the canvas shows a placeholder). The publishable key is meant to be public.
-STRIPE_TABLE_ID = "prctbl_1UVuKKPwAVpYLYZakzp7rGNS"
+STRIPE_TABLE_ID = "prctbl_1UdMG1PwAVpYLYZapanCb5gv"
 STRIPE_PK = "pk_live_51UVkacPwAVpYLYZa4HWnOyZseXLApwT7yGTsVIyuMVqDLfXrJ10x12S7rUCvAVsdlgUqeL5PampTEt8mc9jnOd8C00AfVamsSs"
 stripe_html = ('<div class="kd-stripe" style="border-radius: 20px; background: #FFFFFF; padding: clamp(8px, 2vw, 24px)">'
                '<script async src="https://js.stripe.com/v3/pricing-table.js"></script>'
