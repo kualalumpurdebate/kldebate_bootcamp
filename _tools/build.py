@@ -225,7 +225,7 @@ title, head, body, script = split_dc(open(os.path.join(SRC, "Schools.dc.html"), 
 body = fix_common(body, {"Main.dc.html": "index.html"})
 left = re.findall(r"\{\{[^}]*\}\}|<sc-|onClick=", body)
 assert not left, left[:5]
-desc = ("The School Package: USD 250 per student when your school enrols students in groups of 5 "
+desc = ("The School Package: RM400 per student when your school enrols students in groups of 5 "
         "in the Kuala Lumpur Debate Orators Camp, December 2026.")
 open(os.path.join(OUT, "school-package.html"), "w", encoding="utf-8").write(
     page(title + " | Kuala Lumpur Debate Orators Camp", desc, head, body, "", "", blob_names["b7ccdbf2242079eb873744563a7671cf"]))
