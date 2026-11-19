@@ -26,6 +26,10 @@ BRIEF = os.path.join(HERE, "out", "brief.pdf")
 PATCHED = os.path.join(HERE, "out", "schedule-patched.pdf")
 OUTPUT = os.path.join(ROOT, "assets", "KL-Debate-Orators-Camp-2026-Camp-Pack.pdf")
 
+# Schedule pages to leave out of the pack (matched on the page text, spaces removed).
+# Little Heroes (18-20 Dec) was dropped on 19/11/2026.
+DROP_PAGES = ["SCHEDULE·LITTLEHEROES"]
+
 FONT_DIRS = [os.path.join(HERE, "fonts"), "/usr/share/fonts"]
 
 
@@ -141,13 +145,19 @@ def main():
     sched = PdfReader(PATCHED)
     out = PdfWriter()
     out.add_page(brief.pages[0])
-    for p in sched.pages:
+    kept = 0
+    for i, p in enumerate(sched.pages):
+        flat = "".join((doc[i].get_text() or "").split()).upper()
+        if any(key in flat for key in DROP_PAGES):
+            print("Leaving out schedule page", i + 1, "(session no longer running)")
+            continue
         out.add_page(p)
+        kept += 1
     out.add_page(brief.pages[1])
     out.add_metadata({"/Title": "Kuala Lumpur Debate Orators Camp 2026 — Camp brief, schedule, fees and FAQs"})
     with open(OUTPUT, "wb") as f:
         out.write(f)
-    print("Wrote", os.path.relpath(OUTPUT, ROOT), "(%d pages)" % (len(brief.pages) + len(sched.pages)))
+    print("Wrote", os.path.relpath(OUTPUT, ROOT), "(%d pages)" % (len(brief.pages) + kept))
 
 
 if __name__ == "__main__":
