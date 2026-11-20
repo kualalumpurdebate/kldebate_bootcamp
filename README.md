@@ -5,6 +5,7 @@ published at https://bootcamp.kualalumpurdebate.com with GitHub Pages (deployed 
 
 - `index.html` – camp landing page
 - `school-package.html` – School Package page (`international-school-package.html` redirects there)
+- `young-adults.html` – Young Adults one-day session (ages 20–35, 18, 19 or 20 Dec)
 - `assets/` – photos, logos and the downloadable camp pack PDF
 - `_pack/` – sources for the camp pack PDF (see below)
 
@@ -25,6 +26,6 @@ If the schedule still says "KL DEBATE CAMP" or ages "7 to 20" / "16–20", the b
 "KL DEBATE ORATORS CAMP" and 19 automatically.
 
 ## Re-exporting from the canvas
-`_tools/build.py` converts the canvas artboards (`Main.dc.html`, `Schools.dc.html`) into the two pages.
+`_tools/build.py` converts the canvas artboards (`Main.dc.html`, `Schools.dc.html`, `YoungAdults.dc.html`) into the three pages.
 It needs the canvas files and a JSON map of canvas file ids to local files:
 `python3 _tools/build.py <canvas project folder> <assets_map.json> <output folder>`.

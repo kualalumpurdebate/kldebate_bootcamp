@@ -31,7 +31,7 @@ def fix_common(html, page_links):
     html = html.replace("{{accent}}", ACCENT)
     html = re.sub(r"/_blob/([0-9a-f]{32})", lambda m: blob_names[m.group(1)], html)
     for a, b in page_links.items():
-        html = html.replace(f'href="{a}"', f'href="{b}"')
+        html = html.replace(f'href="{a}"', f'href="{b}"').replace(f'href="{a}#', f'href="{b}#')
     html = re.sub(r'\s+hint-[a-z-]+="[^"]*"', "", html)
     return html
 
@@ -91,7 +91,7 @@ img{{max-width:100%}}
 
 # ---------------------------------------------------------------- Main page
 title, head, body, script = split_dc(open(os.path.join(SRC, "Main.dc.html"), encoding="utf-8").read())
-body = fix_common(body, {"Schools.dc.html": "school-package.html"})
+body = fix_common(body, {"Schools.dc.html": "school-package.html", "YoungAdults.dc.html": "young-adults.html"})
 
 # Partners (data parsed from the canvas script)
 partners = []
@@ -229,6 +229,17 @@ desc = ("The School Package: RM400 per student when your school enrols students 
         "in the Kuala Lumpur Debate Orators Camp, December 2026.")
 open(os.path.join(OUT, "school-package.html"), "w", encoding="utf-8").write(
     page(title + " | Kuala Lumpur Debate Orators Camp", desc, head, body, "", "", blob_names["b7ccdbf2242079eb873744563a7671cf"]))
+
+# ---------------------------------------------------------------- Young Adults page
+if os.path.exists(os.path.join(SRC, "YoungAdults.dc.html")):
+    title, head, body, script = split_dc(open(os.path.join(SRC, "YoungAdults.dc.html"), encoding="utf-8").read())
+    body = fix_common(body, {"Main.dc.html": "index.html"})
+    left = re.findall(r"\{\{[^}]*\}\}|<sc-|onClick=", body)
+    assert not left, left[:5]
+    desc = ("A one-day public speaking, critical thinking and debate session for young adults aged 20 to 35: "
+            "18, 19 or 20 December 2026, 10am to 4pm, at TEDOH, Kuala Lumpur.")
+    open(os.path.join(OUT, "young-adults.html"), "w", encoding="utf-8").write(
+        page(title + " | Kuala Lumpur Debate Orators Camp", desc, head, body, "", "", blob_names["b7ccdbf2242079eb873744563a7671cf"]))
 
 # The page used to be called international-school-package.html: keep that address working.
 open(os.path.join(OUT, "international-school-package.html"), "w", encoding="utf-8").write("""<!doctype html>
