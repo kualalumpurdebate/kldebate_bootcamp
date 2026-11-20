@@ -1,8 +1,9 @@
 """Build the downloadable camp pack PDF.
 
     camp brief (out/brief.pdf, page 1)
+  + the three camp posters (out/brief.pdf, pages 2-4)
   + Luqman's schedule pages (schedule-source.pdf, with the fixes below)
-  + fees, school package and FAQs (out/brief.pdf, page 2)
+  + fees, school package and FAQs (out/brief.pdf, last page)
   = assets/KL-Debate-Orators-Camp-2026-Camp-Pack.pdf
 
 Fixes applied to the schedule pages when the old wording is found
@@ -211,9 +212,11 @@ def main():
     sched = PdfReader(PATCHED)
     out = PdfWriter()
     out.add_page(brief.pages[0])
+    for p in brief.pages[1:-1]:  # the three posters, between the brief and the schedule
+        out.add_page(p)
     for p in sched.pages:
         out.add_page(p)
-    out.add_page(brief.pages[1])
+    out.add_page(brief.pages[-1])
     out.add_metadata({"/Title": "Kuala Lumpur Debate Orators Camp 2026 — Camp brief, schedule, fees and FAQs"})
     with open(OUTPUT, "wb") as f:
         out.write(f)
