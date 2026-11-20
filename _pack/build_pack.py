@@ -133,31 +133,91 @@ def patch(doc):
     return changes
 
 
+BAND = os.path.join(HERE, "out", "page1-band.pdf")
+BAND_RECT = (40, 116, 556, 404)  # intro paragraph + session cards on schedule page 1 (points)
+
+
+def flat_text(page):
+    return "".join((page.get_text() or "").split()).upper()
+
+
+def replace_band(doc):
+    """Swap page 1's intro + session cards for the two-session version (page1-band.html)."""
+    if not os.path.exists(BAND) or "LITTLEHEROES" not in flat_text(doc[0]):
+        return False
+    page = doc[0]
+    r = pymupdf.Rect(*BAND_RECT)
+    page.add_redact_annot(r, fill=(245 / 255, 245 / 255, 250 / 255))
+    page.apply_redactions(images=pymupdf.PDF_REDACT_IMAGE_REMOVE,
+                          graphics=pymupdf.PDF_REDACT_LINE_ART_REMOVE_IF_COVERED)
+    band = pymupdf.open(BAND)
+    page.show_pdf_page(pymupdf.Rect(0, BAND_RECT[1], page.rect.width, BAND_RECT[3]), band, 0)
+    return True
+
+
+def renumber(doc):
+    """After pages are left out, make footer page numbers and SESSION numbers run 1, 2, 3..."""
+    changes = 0
+    for i, page in enumerate(doc):
+        pix = page.get_pixmap(dpi=144)
+        jobs = []
+        for block in page.get_text("rawdict")["blocks"]:
+            for line in block.get("lines", []):
+                for span in line["spans"]:
+                    letters = [c for c in span["chars"] if c["c"] != " "]
+                    if not letters:
+                        continue
+                    flat = "".join(c["c"] for c in letters)
+                    # footer page number (a single digit in a small circle, bottom right)
+                    if span["bbox"][1] > page.rect.height - 50 and flat.isdigit() and "Poppins" in span["font"]:
+                        if flat != str(i + 1):
+                            jobs.append((letters[0], str(i + 1), span))
+                    # "SESSION n · AGES" label at the top of each session page
+                    k = flat.find("SESSION")
+                    if i > 0 and k >= 0 and flat[k + 7:k + 8].isdigit() and "·AGES" in flat:
+                        if flat[k + 7] != str(i):
+                            jobs.append((letters[k + 7], str(i), span))
+        if not jobs:
+            continue
+        for ch, _, _ in jobs:
+            r = pymupdf.Rect(ch["bbox"])
+            page.add_redact_annot(r, fill=background(pix, pymupdf.Rect(r.x0 + 0.3, r.y0 + 2, r.x1, r.y1)))
+        page.apply_redactions(images=pymupdf.PDF_REDACT_IMAGE_NONE, graphics=pymupdf.PDF_REDACT_LINE_ART_NONE)
+        for ch, new, span in jobs:
+            fn = "Fpop" if "Poppins" in span["font"] else "Fmono"
+            path = find_font({"Poppins-Bold.ttf"}) if fn == "Fpop" else find_font({"DejaVuSansMono.ttf"})
+            page.insert_font(fontname=fn, fontfile=path)
+            page.insert_text(ch["origin"], new, fontname=fn, fontsize=span["size"], color=rgb(span["color"]))
+            changes += 1
+    return changes
+
+
 def main():
     if not os.path.exists(BRIEF):
         sys.exit("Run `node render.js` first (out/brief.pdf is missing).")
     doc = pymupdf.open(SOURCE)
     n = patch(doc)
+    for i in reversed(range(doc.page_count)):
+        if any(key in flat_text(doc[i]) for key in DROP_PAGES):
+            print("Leaving out schedule page", i + 1, "(session no longer running)")
+            doc.delete_page(i)
+    if replace_band(doc):
+        print("Page 1: intro and session cards replaced with the two-session version")
+    m = renumber(doc)
     doc.save(PATCHED, garbage=3, deflate=True)
-    print("Schedule pages: %d page(s), %d fix(es) applied" % (doc.page_count, n))
+    print("Schedule pages: %d kept, %d wording fix(es), %d number fix(es)" % (doc.page_count, n, m))
 
     brief = PdfReader(BRIEF)
     sched = PdfReader(PATCHED)
     out = PdfWriter()
     out.add_page(brief.pages[0])
-    kept = 0
-    for i, p in enumerate(sched.pages):
-        flat = "".join((doc[i].get_text() or "").split()).upper()
-        if any(key in flat for key in DROP_PAGES):
-            print("Leaving out schedule page", i + 1, "(session no longer running)")
-            continue
+    for p in sched.pages:
         out.add_page(p)
-        kept += 1
     out.add_page(brief.pages[1])
     out.add_metadata({"/Title": "Kuala Lumpur Debate Orators Camp 2026 — Camp brief, schedule, fees and FAQs"})
     with open(OUTPUT, "wb") as f:
         out.write(f)
-    print("Wrote", os.path.relpath(OUTPUT, ROOT), "(%d pages)" % (len(brief.pages) + kept))
+    print("Wrote", os.path.relpath(OUTPUT, ROOT), "(%d pages)" % (len(brief.pages) + len(sched.pages)))
 
 
 if __name__ == "__main__":

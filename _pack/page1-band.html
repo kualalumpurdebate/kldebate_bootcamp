@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Schedule page 1 – intro and session cards (two sessions)</title>
+<!--
+  Replaces the intro paragraph and the session cards on page 1 of schedule-source.pdf
+  (the band from y=116pt to y=404pt), now that Little Heroes (18-20 Dec) is no longer running.
+  build_pack.py drops this band onto page 1 when the source page still shows Little Heroes.
+-->
+<style>
+@font-face{font-family:"Pop";src:url("node_modules/@fontsource/poppins/files/poppins-latin-500-normal.woff2") format("woff2");font-weight:500}
+@font-face{font-family:"Pop";src:url("node_modules/@fontsource/poppins/files/poppins-latin-700-normal.woff2") format("woff2");font-weight:700}
+@font-face{font-family:"Int";src:url("node_modules/@fontsource/inter/files/inter-latin-400-normal.woff2") format("woff2");font-weight:400}
+@font-face{font-family:"DJM";src:url("fonts/DejaVuSansMono.ttf") format("truetype")}
+@page{size:595.92pt 288pt;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{width:595.92pt;height:288pt;background:#F5F5FA;position:relative;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.intro{position:absolute;left:45pt;top:1.5pt;width:503pt;margin:0;font-family:"Int";font-size:9.8pt;line-height:15.6pt;color:#4B4F68}
+.cards{position:absolute;left:45pt;top:57.2pt;width:504.8pt;height:227.3pt;display:grid;grid-template-columns:1fr 1fr;gap:9.8pt}
+.card{border-radius:10pt;border:0.75pt solid;border-top:3.2pt solid;padding:15pt 14pt 13pt;display:flex;flex-direction:column}
+.rv{background:#F9E8DF;border-color:#F0D2C6;border-top-color:#D27F65}
+.yc{background:#E0EFF9;border-color:#C9E0F1;border-top-color:#599DCC}
+.lab{font-family:"DJM";font-size:6.8pt;letter-spacing:.17em;color:#4B4F68;text-transform:uppercase}
+.name{font-family:"Pop";font-weight:700;font-size:14pt;line-height:1.25;color:#121531;margin-top:3pt}
+.ages{font-family:"Pop";font-weight:500;font-size:9.2pt;color:#121531}
+.date{font-family:"Pop";font-weight:700;font-size:14pt;color:#374491;margin-top:7pt}
+.rule{height:0.8pt;background:rgba(18,21,49,.10);margin:7pt 0 8pt}
+.desc{font-family:"Int";font-size:8.3pt;line-height:12.6pt;color:#4B4F68;margin:0}
+.days{list-style:none;margin:8pt 0 0;padding:0;display:flex;flex-direction:column;gap:6pt}
+.days li{display:flex;align-items:center;gap:7pt;font-family:"Int";font-size:8.2pt;color:#121531}
+.n{width:11.5pt;height:11.5pt;border-radius:99pt;display:grid;place-items:center;font-family:"Pop";font-weight:700;font-size:6.8pt;color:#fff;flex:0 0 11.5pt}
+.n1{background:#E1BB47}.n2{background:#D27F65}.n3{background:#599DCC}
+.more{margin-top:auto;font-family:"DJM";font-size:7.6pt;letter-spacing:.06em;color:#374491;text-transform:uppercase}
+</style>
+</head>
+<body>
+<p class="intro">Three-day public speaking, critical thinking and debate camps for ages 11 to 19. Both sessions follow the same arc, pitched for each age: Day 1 confidence and public speaking, Day 2 critical thinking, Day 3 debate. Every day runs from 9am to 5pm.</p>
+<div class="cards">
+  <div class="card rv">
+    <span class="lab">Session 1 · Mon – Wed</span>
+    <span class="name">Rising Voices</span>
+    <span class="ages">Ages 11–15</span>
+    <span class="date">21 – 23 Dec 2026</span>
+    <div class="rule"></div>
+    <p class="desc">For beginners: public speaking first, then critical thinking and debate.</p>
+    <ul class="days">
+      <li><span class="n n1">1</span>Find your voice</li>
+      <li><span class="n n2">2</span>See every side</li>
+      <li><span class="n n3">3</span>Speak for the world</li>
+    </ul>
+    <span class="more">Full schedule · page 2</span>
+  </div>
+  <div class="card yc">
+    <span class="lab">Session 2 · Mon – Wed</span>
+    <span class="name">Young Champions</span>
+    <span class="ages">Ages 16–19</span>
+    <span class="date">28 – 30 Dec 2026</span>
+    <div class="rule"></div>
+    <p class="desc">For experienced speakers: more debate, on real issues.</p>
+    <ul class="days">
+      <li><span class="n n1">1</span>Speak with purpose</li>
+      <li><span class="n n2">2</span>Think like a policymaker</li>
+      <li><span class="n n3">3</span>Debate to decide</li>
+    </ul>
+    <span class="more">Full schedule · page 3</span>
+  </div>
+</div>
+</body>
+</html>

@@ -12,5 +12,12 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
   if (fit.includes(false)) { const h = await page.evaluate(() => [...document.querySelectorAll('.page')].map(p => p.scrollHeight)); console.error('Content overflows an A4 page (heights, limit 1123):', h); process.exit(1); }
   fs.mkdirSync(path.join(__dirname, 'out'), { recursive: true });
   await page.pdf({ path: path.join(__dirname, 'out', 'brief.pdf'), format: 'A4', printBackground: true, margin: { top: 0, bottom: 0, left: 0, right: 0 } });
+  // Page-1 band of the schedule (intro + two session cards), used while the source still shows Little Heroes.
+  if (fs.existsSync(path.join(__dirname, 'page1-band.html'))) {
+    const band = await browser.newPage();
+    await band.goto('file://' + path.join(__dirname, 'page1-band.html'));
+    await band.evaluate(() => document.fonts.ready);
+    await band.pdf({ path: path.join(__dirname, 'out', 'page1-band.pdf'), preferCSSPageSize: true, printBackground: true, margin: { top: 0, bottom: 0, left: 0, right: 0 } });
+  }
   await browser.close();
 })();
