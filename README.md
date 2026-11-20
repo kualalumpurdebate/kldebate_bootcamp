@@ -16,7 +16,7 @@ so make changes on the canvas rather than editing the HTML by hand.
 
 `assets/KL-Debate-Orators-Camp-2026-Camp-Pack.pdf` is built from:
 
-1. `_pack/brief.html` – the camp brief (front page), three poster pages (`assets/camp-poster-1..3.jpg`) and the fees, school package and FAQs page (last page)
+1. `_pack/brief.html` – the camp brief (front page), one page with the three posters (`assets/camp-poster-1..3.jpg`) and the fees, school package and FAQs page (last page)
 2. `_pack/schedule-source.pdf` – the four schedule pages, exactly as designed
 
 When the schedule changes, replace `_pack/schedule-source.pdf` with the new PDF (same file name), then rebuild:

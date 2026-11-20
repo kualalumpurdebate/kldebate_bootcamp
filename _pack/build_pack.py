@@ -1,7 +1,7 @@
 """Build the downloadable camp pack PDF.
 
     camp brief (out/brief.pdf, page 1)
-  + the three camp posters (out/brief.pdf, pages 2-4)
+  + the camp posters page (out/brief.pdf, page 2)
   + Luqman's schedule pages (schedule-source.pdf, with the fixes below)
   + fees, school package and FAQs (out/brief.pdf, last page)
   = assets/KL-Debate-Orators-Camp-2026-Camp-Pack.pdf
